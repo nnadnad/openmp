@@ -1,9 +1,17 @@
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "util.h"
 #include "dijkstra.h"
 #include "boolean.h"
+
+
+static double get_micros(void) {
+    struct timespec ts;
+    timespec_get(&ts, TIME_UTC);
+    return ((double)((long)ts.tv_sec * 1000000000L + ts.tv_nsec)/1000);
+}
 
 
 int main(int argc, char const *argv[])
@@ -12,11 +20,17 @@ int main(int argc, char const *argv[])
 	int num_vertices = atoi(argv[2]);
 	// int tid;
 
+	// time
+	double start_time, end_time, total_time;
+
 	// generate graph and result matrix
 	long **result = gen_temp(num_vertices, num_vertices);
 	long **graph = gen_graph(num_vertices);
 
 	long *temp = (long*) malloc(sizeof(long)*num_vertices);
+
+	// init time
+	total_time = 0;
 
 	// share the work to all the threads
 	#pragma omp parallel for private(temp)
@@ -25,7 +39,11 @@ int main(int argc, char const *argv[])
 		// printf("i: %d, by the way i'm thread %d\n", i, tid);
 		
 		// get the shortest path from each vertex
+		// get time execution
+		start_time = get_micros();
 		temp = dijkstra(graph, num_vertices, i);
+		end_time = get_micros();
+
 		
 		// put it in result
 		#pragma omp critical(result) 
@@ -34,6 +52,8 @@ int main(int argc, char const *argv[])
 				result[i][j] = temp[j];
 			}
 		}
+
+		total_time += end_time - start_time;
 	}
 
 	char filename[20];
@@ -41,6 +61,7 @@ int main(int argc, char const *argv[])
 	printf("about to write output file\n");
 	write_result(result, num_vertices, filename);
 	printf("done writing\n");
+	printf("processing time: %0.04lf us ...\n",total_time);
 
 	return 0;
 }
