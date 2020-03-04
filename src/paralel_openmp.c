@@ -54,12 +54,12 @@ int main(int argc, char const *argv[])
 
 		
 		// put it in result
-		#pragma omp critical(result) 
-		{
-			for (int j = 0; j < num_vertices; j++) {
-				result[i][j] = temp[j];
-			}
+		// #pragma omp critical(result) 
+		// {
+		for (int j = 0; j < num_vertices; j++) {
+			result[i][j] = temp[j];
 		}
+		// }
 
 		total_time += end_time - start_time;
 	}
