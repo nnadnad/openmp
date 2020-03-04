@@ -32,6 +32,7 @@ int main(int argc, char const *argv[])
 	// init time
 	total_time = 0;
 
+	#pragma omp barrier
 	// share the work to all the threads
 	#pragma omp parallel for private(temp)
 	for (int i = 0; i < num_vertices; i++) {
@@ -40,8 +41,11 @@ int main(int argc, char const *argv[])
 		
 		// get the shortest path from each vertex
 		// get time execution
+
 		start_time = get_micros();
 		temp = dijkstra(graph, num_vertices, i);
+
+		// kalo barrier nya disini error
 		end_time = get_micros();
 
 		
@@ -55,6 +59,8 @@ int main(int argc, char const *argv[])
 
 		total_time += end_time - start_time;
 	}
+		// #pragma omp barrier
+		// total_time += end_time - start_time;
 
 	char filename[20];
 	sprintf(filename, "./output_parallel_%d", num_vertices);
