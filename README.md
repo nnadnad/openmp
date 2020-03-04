@@ -26,7 +26,7 @@ Misalkan ada 3 anak proses dan ada 3 node pada graf yang di-proses, maka diparal
 
 
 ### Analisis Solusi
-`BELOMAN`
+Dalam konteks memparalelisasi algoritma dijkstra, menurut kami jika dapat dilakukan pengisian matriks menggunakan `memcpy()` di-dalam suatu proses anak maka solusi akan jauh lebih teroptimasi.
 
 
 ### Hasil Uji
