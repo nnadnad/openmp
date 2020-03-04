@@ -36,10 +36,10 @@ Berikut Merupakan hasil uji yang kami lakukan untuk node 100, 500, 1000, dan 300
 
 | N             | Percobaan 1   | Percobaan 2 | Percobaan 3 | Rata-rata           |
 | ------------- |:-------------:| -----:| ------------- |:-------------:|
-| 100      | 0.011085 | 0.01106 | 0.011177 | 0.01110733333 |
-| 500      | 1.209287 | 1.19514 | 1.189376 | 1.19793433333 |
-| 1000     | 9.63809 | 9.648635 | 9.691299 | 9.65934133333 |
-| 3000     | 289.04144 | 290.054272 | 289.371232 | 289.488981333 |
+| 100      | 11.085 | 11.06 | 11.177 | 11.1073333333 |
+| 500      | 1209.287 | 1195.14 | 1189.376 | 1197.93433333 |
+| 1000     | 9638.09 | 9648.635 | 9691.299 | 9659.34133333 |
+| 3000     | 289041.44 | 290054.272 | 289371.232 | 289488.981333 |
 
 
 * **Paralel Dijkstra OpenMP**
@@ -51,7 +51,9 @@ Berikut Merupakan hasil uji yang kami lakukan untuk node 100, 500, 1000, dan 300
 | 1000     | 2646.930331 | 2650.61712975 | 2651.74764425 | 2649.765035 |
 | 3000     | 232189.652940250002 | 238495.246832749981 | 241372.985165749997 | 237352.628313 |
 
+**Thread yang digunakan untuk Paralel Dijkstra OpenMP = 4**
+
 
 ### Analisis Uji
-Berdasarkan hasil uji, paralel dijkstra menghasilkan rata-rata waktu yang lebih lama, dibandingkan dengan yang serial.
-Dimana seharusnya paralel dijkstra menghasilkan waktu yang lebih cepat dibandingkan dengan serial dikarenakan menggunakan beberapa thread untuk membagi pekerjaan sehingga beban yang didapat lebih kecil
+Dari seluruh percobaan yang dilakukan, didapatkan bahwa program paralel selalu lebih cepat daripada program serial. 
+Hal ini tentu karena paralelisasi lebih mengutilisasi resource yang ada dengan thread yang lebih dari 1 menjadikan proses lebih cepat.
