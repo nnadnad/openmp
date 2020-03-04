@@ -5,12 +5,20 @@
 #include "util.h"
 
 
+static double get_micros(void) {
+    struct timespec ts;
+    timespec_get(&ts, TIME_UTC);
+    return ((double)((long)ts.tv_sec * 1000000000L + ts.tv_nsec)/1000);
+}
+
 
 
 
 int main(int argc, char const *argv[])
 {
-	time_t start,end;
+	double start_time, end_time, total_time;
+
+	total_time = 0;
 	
 	if (argc > 1) {
 
@@ -18,7 +26,7 @@ int main(int argc, char const *argv[])
 		printf("n: %d\n", n);
 
 		// start timer
-		start=clock(); 
+		start_time = get_micros(); 
 		// generate graph
 		long **graph = gen_graph(n);
 		
@@ -30,14 +38,14 @@ int main(int argc, char const *argv[])
         	result[i] = dist;
 		}
 		//end timer
-		end=clock();
+		end_time = get_micros();
 
 		//elapsed time
-		float t = (float)(end-start)/CLOCKS_PER_SEC;
-		printf("Elapsed time (in millisecond): %f", t*1000000);
+		total_time += end_time - start_time;
 
 		char filename[20];
 		sprintf(filename, "./output_serial_%d", n);
+		printf("processing time: %0.04lf us ...\n",total_time);
 
 		write_result(result, n, filename);
 		
